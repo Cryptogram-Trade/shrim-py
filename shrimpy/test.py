@@ -7,9 +7,6 @@ class TestClient(TestCase):
     def setUp(self):
         self.client = ShrimpyClient("mykey", "mysecret")
 
-    def test_constructed_client(self):
-        self.assertEqual(self.client.url, "https://api.shrimpy.io/v1/")
-
     def test_response_is_json(self):
         response = self.client.get("bittrex/ticker")
         self.assertIsInstance(response, list)
@@ -20,3 +17,6 @@ class TestClient(TestCase):
         self.assertEqual(self.client.auth_provider.secret_key, "mysecret")
         self.assertTrue(10**12 < self.client.auth_provider.last_nonce < 10**13)
 
+    def test_client_use_dev_api_by_default(self):
+        self.assertEqual(self.client.url, "https://api.shrimpy.io/v1/")
+        self.assertEqual(self.client.auth_provider.version, "dev")
