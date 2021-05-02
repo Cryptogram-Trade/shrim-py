@@ -1,11 +1,11 @@
 from unittest import TestCase
-from . import ShrimpyClient
+from . import ShrimpyDevClient, ShrimpyUserClient
 
 
-class TestClient(TestCase):
+class TestShrimpyDevClient(TestCase):
 
     def setUp(self):
-        self.client = ShrimpyClient("mykey", "mysecret")
+        self.client = ShrimpyDevClient("mykey", "mysecret")
 
     def test_response_is_json(self):
         response = self.client.get("bittrex/ticker")
@@ -17,6 +17,16 @@ class TestClient(TestCase):
         self.assertEqual(self.client.auth_provider.secret_key, "mysecret")
         self.assertTrue(10**12 < self.client.auth_provider.last_nonce < 10**13)
 
-    def test_client_use_dev_api_by_default(self):
-        self.assertEqual(self.client.url, "https://api.shrimpy.io/v1/")
+    def test_client_connects_to_dev_api(self):
+        self.assertEqual(self.client.url, "https://dev-api.shrimpy.io/v1/")
         self.assertEqual(self.client.auth_provider.version, "dev")
+
+
+class TestShrimpyUserClient(TestCase):
+
+    def setUp(self):
+        self.client = ShrimpyUserClient("mykey", "mysecret")
+
+    def test_client_for_user_api(self):
+        self.assertEqual(self.client.url, "https://api.shrimpy.io/v1/")
+        self.assertEqual(self.client.auth_provider.version, "user")

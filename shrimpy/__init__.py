@@ -53,15 +53,17 @@ def get_auth_headers(version, timestamp, message, api_key, secret_key):
     }
 
 
-class ShrimpyClient():
+class BaseShrimpyClient():
     """Authenticated access to the Shrimpy Developer API"""
+    version = None
 
-    def __init__(self, key, secret, timeout=300, version="dev"):
-        self.url = 'https://api.shrimpy.io/v1/'
+    def __init__(self, key, secret, timeout=300):
+        url_prefix = "dev-" if self.version == "dev" else ""
+        self.url = f'https://{url_prefix}api.shrimpy.io/v1/'
         self.auth_provider = None
         self.timeout = timeout
         if (key and secret):
-            self.auth_provider = AuthProvider(version, key, secret)
+            self.auth_provider = AuthProvider(key, secret, self.version)
         self.session = requests.Session()
 
 
@@ -96,3 +98,11 @@ class ShrimpyClient():
     def _add_param_or_ignore(self, params, key, value):
         if value is not None:
             params[key] = value
+
+
+class ShrimpyDevClient(BaseShrimpyClient):
+    version = "dev"
+
+
+class ShrimpyUserClient(BaseShrimpyClient):
+    version = "user"
