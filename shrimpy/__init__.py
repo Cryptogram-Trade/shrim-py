@@ -51,7 +51,7 @@ def get_auth_headers(timestamp, message, api_key, secret_key):
     }
 
 
-class ShrimpyApiClient():
+class ShrimpyClient():
     """Authenticated access to the Shrimpy Developer API"""
 
     def __init__(self, key, secret, timeout=300):
