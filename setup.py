@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="shrim-py",
-    version="0.0.1",
+    version="0.0.2",
     author="Cryptogram Trade",
     author_email="dev@cryptogram.trade",
     description="The Better Shrimpy Python Client for Dev and User APIs",
