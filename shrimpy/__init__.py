@@ -4,13 +4,11 @@ import time
 import base64
 import threading
 import json
-from urllib.parse import urlencode
 
 import requests
-from requests.auth import AuthBase
 
 
-class AuthProvider(AuthBase):
+class AuthProvider(requests.auth.AuthBase):
     def __init__(self, api_key, secret_key, version):
         self.api_key = api_key
         self.secret_key = secret_key
