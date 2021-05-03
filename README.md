@@ -73,3 +73,14 @@ There's no other method used in Shrimpy. However if you needed to manually call 
 The full list of endpoints **for the User API** for accessing public resources, account, portfolios and data types is available on the official doc: https://www.shrimpy.io/docs
 
 With the **Developers API** endpoint you can manage public, trading, historical, user info, management and analytics data: https://developers.shrimpy.io/docs
+
+
+## Running tests
+
+With your virtualenv activated simply run:
+
+```
+make test
+```
+
+It's a handy shortcut for launching unittest.
