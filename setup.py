@@ -13,12 +13,13 @@ setuptools.setup(
     author="Cryptogram Trade",
     author_email="dev@cryptogram.trade",
     description="The Better Shrimpy Python Client for Dev and User APIs",
-    license="BSD",
+    license="GNU",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Cryptogram-Trade/shrim-py",
     install_requires=install_requires,
     packages=["shrimpy"],
+    python_requires=">=3.6",
     keywords=[
         "shrimpy", "social", "bitcoin", "client", "api",
         "exchange", "crypto", "currency", "trading",
@@ -26,7 +27,7 @@ setuptools.setup(
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: OS Independent",
     ],
 )
