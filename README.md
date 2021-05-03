@@ -1,4 +1,6 @@
-# Shrim.py, the Better Shrimpy Python API
+# Shrim-py, the Better Shrimpy Python API
+
+[![Shrimpy Python Tests CI](https://github.com/Cryptogram-Trade/shrim-py/actions/workflows/python-package.yml/badge.svg)](https://github.com/Cryptogram-Trade/shrim-py/actions/workflows/python-package.yml)
 
 This API connect to [Shrimpy Developers API](https://developers.shrimpy.io/) in a more flexible way than [the official API](https://github.com/shrimpy-dev/shrimpy-python).
 
