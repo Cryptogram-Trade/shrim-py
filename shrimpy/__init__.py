@@ -20,36 +20,34 @@ class AuthProvider(AuthBase):
 
 
     def __call__(self, request):
-        nonce = self._get_nonce()
-        message = ''.join([request.path_url, request.method, str(nonce), (request.body or '')])
+        nonce = self.get_nonce()
+        message = f"{request.path_url}{request.method}{nonce}{request.body or ''}"
         headers = get_auth_headers(self.version, nonce, message, self.api_key, self.secret_key)
         request.headers.update(headers)
 
         return request
 
-    def _get_nonce(self):
-        new_nonce = int(time.time() *  1000)
+    def get_nonce(self):
+        nonce = int(time.time() *  1000)
         with self.nonce_lock:
-            if (new_nonce <= self.last_nonce):
-                new_nonce = new_nonce + 1
-
-            self.last_nonce = new_nonce
-
-        return new_nonce
+            if (nonce <= self.last_nonce):
+                nonce = nonce + 1
+            self.last_nonce = nonce
+        return nonce
     
 
 def get_auth_headers(version, timestamp, message, api_key, secret_key):
-    message = message.encode('ascii')
+    message = message.encode("ascii")
     hmac_key = base64.b64decode(secret_key)
     signature = hmac.new(hmac_key, message, hashlib.sha256)
-    signature_b64 = base64.b64encode(signature.digest()).decode('utf-8')
+    signature_b64 = base64.b64encode(signature.digest()).decode("utf-8")
     header_prefix = "DEV-" if version == "dev" else ""
 
     return {
-        'Content-Type': 'application/json',
-        f'{header_prefix}SHRIMPY-API-KEY': api_key,
-        f'{header_prefix}SHRIMPY-API-NONCE': timestamp,
-        f'{header_prefix}SHRIMPY-API-SIGNATURE': signature_b64
+        "Content-Type": "application/json",
+        f"{header_prefix}SHRIMPY-API-KEY": api_key,
+        f"{header_prefix}SHRIMPY-API-NONCE": timestamp,
+        f"{header_prefix}SHRIMPY-API-SIGNATURE": signature_b64
     }
 
 
@@ -59,7 +57,7 @@ class BaseShrimpyClient():
 
     def __init__(self, key, secret, timeout=300):
         url_prefix = "dev-" if self.version == "dev" else ""
-        self.url = f'https://{url_prefix}api.shrimpy.io/v1/'
+        self.url = f"https://{url_prefix}api.shrimpy.io/v1/"
         self.auth_provider = None
         self.timeout = timeout
         if (key and secret):
@@ -84,20 +82,13 @@ class BaseShrimpyClient():
         return api_request.json()
     
     def get(self, *args, **kwargs):
-        return self.call('GET', *args, **kwargs)
+        return self.call("GET", *args, **kwargs)
 
     def post(self, *args, **kwargs):
-        return self.call('POST', *args, **kwargs)
+        return self.call("POST", *args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        return self.call('DELETE', *args, **kwargs)
-
-    def _create_query_string(self, endpoint, params):
-        return endpoint + '?' + urlencode(params)
-
-    def _add_param_or_ignore(self, params, key, value):
-        if value is not None:
-            params[key] = value
+        return self.call("DELETE", *args, **kwargs)
 
 
 class ShrimpyDevClient(BaseShrimpyClient):
